@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:docpilot/screens/auth/signup_screen.dart';
+import 'package:docpilot/screens/userType/user_type.dart';
+
 import 'package:docpilot/screens/auth/forgot_password_screen.dart';
 import 'package:docpilot/screens/dashboard/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -12,15 +14,18 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isLoading = false;
+  String _selectedLoginType = 'staff';
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -30,10 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = true;
       });
 
-      // Simulate login delay
       await Future.delayed(const Duration(seconds: 2));
-
-      // TODO: Implement actual Appwrite authentication
 
       setState(() {
         _isLoading = false;
@@ -58,90 +60,115 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo and Title
-                Icon(
-                  Icons.medical_services_rounded,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                const SizedBox(height: 16),
                 Text(
-                  'Welcome to DocPilot',
+                  'Welcome back',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 255, 249, 249),
+                      ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Sign in to continue',
+                  'Choose your login method to continue',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withOpacity(0.7),
-                  ),
+                        color: Colors.grey.shade600,
+                      ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
 
-                // Login Form
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildLoginTypeButton(
+                      'Staff Login',
+                      'staff',
+                      context,
+                    ),
+                    const SizedBox(width: 8),
+                    _buildLoginTypeButton(
+                      'Patient Login',
+                      'patient',
+                      context,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
                 Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Email Field
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'Enter your email',
-                          prefixIcon: Icon(Icons.email_outlined),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          if (!RegExp(
-                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                          ).hasMatch(value)) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Password Field
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: !_isPasswordVisible,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          hintText: 'Enter your password',
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isPasswordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
-                              });
-                            },
+                      if (_selectedLoginType == 'staff') ...[
+                        // Username Field
+                        TextFormField(
+                          controller: _usernameController,
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            labelText: 'Username',
+                            hintText: 'Enter your username',
+                            prefixIcon: Icon(Icons.person_outline),
+                            border: OutlineInputBorder(),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your username';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                      ),
+                        const SizedBox(height: 16),
+
+                        // Password Field
+                        TextFormField(
+                          controller: _passwordController,
+                          obscureText: !_isPasswordVisible,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            hintText: 'Enter your password',
+                            prefixIcon: const Icon(Icons.lock_outline),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                            ),
+                            border: const OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                        ),
+                      ] else if (_selectedLoginType == 'patient') ...[
+                        // Phone Number Field
+                        TextFormField(
+                          controller: _phoneNumberController,
+                          keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                            labelText: 'Phone Number',
+                            hintText: 'Enter phone number',
+                            prefixIcon: Icon(Icons.phone),
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your phone number';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                       const SizedBox(height: 8),
 
                       // Forgot Password
@@ -152,8 +179,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder:
-                                    (context) => const ForgotPasswordScreen(),
+                                builder: (context) =>
+                                    const ForgotPasswordScreen(),
                               ),
                             );
                           },
@@ -162,20 +189,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 24),
 
-                      // Login Button
                       ElevatedButton(
                         onPressed: _isLoading ? null : _login,
-                        child:
-                            _isLoading
-                                ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                                : const Text('Login'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal.shade700,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          textStyle: const TextStyle(fontSize: 16),
+                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(_selectedLoginType == 'staff' ? 'Login' : 'Send OTP'),
                       ),
                       const SizedBox(height: 24),
 
@@ -186,9 +217,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'Don\'t have an account?',
                             style: TextStyle(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurface.withOpacity(0.7),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.7),
                             ),
                           ),
                           TextButton(
@@ -196,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SignupScreen(),
+                                  builder: (context) => const UserTypeScreen(),
                                 ),
                               );
                             },
@@ -207,11 +239,72 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 32),
+
+                const Text(
+                  'Available in',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        // TODO: Implement language selection
+                      },
+                      child: const Text('English',
+                          style: TextStyle(color: Colors.blue)),
+                    ),
+                    const Text('|', style: TextStyle(color: Colors.grey)),
+                    TextButton(
+                      onPressed: () {
+                        // TODO: Implement language selection
+                      },
+                      child: const Text('Tamil',
+                          style: TextStyle(color: Colors.blue)),
+                    ),
+                    const Text('|', style: TextStyle(color: Colors.grey)),
+                    TextButton(
+                      onPressed: () {
+                        // TODO: Implement language selection
+                      },
+                      child: const Text('Malayalam',
+                          style: TextStyle(color: Colors.blue)),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLoginTypeButton(
+    String text,
+    String type,
+    BuildContext context,
+  ) {
+    final isSelected = _selectedLoginType == type;
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _selectedLoginType = type;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isSelected ? Colors.teal.shade50 : Colors.grey.shade100,
+        foregroundColor: isSelected ? Colors.teal.shade900 : Colors.black87,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      child: Text(text),
     );
   }
 }

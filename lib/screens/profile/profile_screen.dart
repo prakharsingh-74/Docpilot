@@ -279,9 +279,12 @@ class ProfileScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  // Navigate to *basic* LoginScreen
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
+                      builder:
+                          (context) =>
+                              const LoginScreen(), // Use the basic LoginScreen
                     ),
                     (route) => false,
                   );

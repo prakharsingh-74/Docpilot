@@ -1,3 +1,4 @@
+import 'package:docpilot/screens/userType/user_type.dart';
 import 'package:flutter/material.dart';
 import 'package:docpilot/screens/auth/login_screen.dart';
 
