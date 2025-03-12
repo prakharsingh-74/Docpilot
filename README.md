@@ -13,7 +13,7 @@
 
 ## Project Overview
 
-Build a new age EMR application using conversational AI at its best. Existing EMR solutioning is Age-old! Doctors resist the overwhelming software which is high on costs and difficult to operate. Last innovation was made in 1990's. DocPilot listens to the whole consultation conversation between a doctor and patient, and generates a prescription for the doctor to just sign, print and save digitally.
+Building a new age EMR application using conversational AI at its best. Existing EMR solutioning is Age-old! Doctors resist the overwhelming software which is high on costs and difficult to operate. Last innovation was made in 1990's. DocPilot listens to the whole consultation conversation between a doctor and patient, and generates a prescription for the doctor to just sign, print and save digitally.
 
 The app should be able to separate out things like symptoms, diagnosis, medications and tests from the conversation it listens to. These are just the basic requirements. Research more on OPD appointments and include them in our solutioning.
 
@@ -36,15 +36,15 @@ flowchart TB
         SL["Slack"]
     end
 
-    %% React Frontend
-    subgraph "React Frontend"
-        FRONT["React + TS + TailwindCSS"]
+    %% Flutter Frontend
+    subgraph "Flutter Frontend"
+        FRONT["Flutter + Dart"]
         DASH["Dashboard"]
     end
 
-    %% FastAPI Backend
-    subgraph "FastAPI backend"
-        API["FastAPI Gateway"]
+    %% Supabase Backend
+    subgraph "Supabase backend"
+        API["Supa Gateway"]
     end
 
     %% Authentication
@@ -272,8 +272,7 @@ For installing the project locally refer to the [Installation Guide](./docs/INST
 
 ### Frontend Components
 
-- **Dashboard**: React.js + Tailwind CSS
-- **Analytics UI**: React.js + Shadcn
+- Flutter + Dart
 
 ### DevOps & Infrastructure
 
@@ -820,5 +819,3 @@ flowchart TB
    - Health check validation post-deployment
    - Automatic rollback on critical metrics deviation
    - Deployment audit logging
-
->>>>>>> 82fa5d7 (Add initial Flutter project structure with platform-specific configurations and generated files)
