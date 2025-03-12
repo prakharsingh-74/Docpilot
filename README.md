@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-Docpilot here
-hi
-=======
-# Devr.AI - AI-Powered Developer Relations Assistant
+# Docpilot - AI-Powered Developer Relations Assistant
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -17,9 +13,9 @@ hi
 
 ## Project Overview
 
-Devr.AI is an advanced AI-powered Developer Relations (DevRel) assistant designed to revolutionize open-source community management. By integrating with platforms like Discord, Slack, GitHub, and Discourse, Devr.AI functions as a virtual DevRel advocate that helps maintainers engage with contributors, streamline onboarding processes, and deliver real-time project updates.
+Build a new age EMR application using conversational AI at its best. Existing EMR solutioning is Age-old! Doctors resist the overwhelming software which is high on costs and difficult to operate. Last innovation was made in 1990's. DocPilot listens to the whole consultation conversation between a doctor and patient, and generates a prescription for the doctor to just sign, print and save digitally.
 
-The system leverages Large Language Models (LLMs), knowledge retrieval mechanisms, and workflow automation to enhance community engagement, simplify contributor onboarding, and ensure that open-source projects remain active and well-supported.
+The app should be able to separate out things like symptoms, diagnosis, medications and tests from the conversation it listens to. These are just the basic requirements. Research more on OPD appointments and include them in our solutioning.
 
 ### Key Value Propositions
 
