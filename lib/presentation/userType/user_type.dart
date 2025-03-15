@@ -1,6 +1,6 @@
-import 'package:docpilot/screens/auth/signup_screen.dart';
+import 'package:docpilot/presentation/auth/signup_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:docpilot/screens/auth/login_screen.dart';
+import 'package:docpilot/presentation/auth/login_screen.dart';
 
 class UserTypeScreen extends StatelessWidget {
   const UserTypeScreen({Key? key}) : super(key: key);

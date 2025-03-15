@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:docpilot/screens/prescriptions/prescription_review_screen.dart';
+import 'package:docpilot/presentation/prescriptions/prescription_review_screen.dart';
 
 class ConsultationScreen extends StatefulWidget {
   const ConsultationScreen({super.key});

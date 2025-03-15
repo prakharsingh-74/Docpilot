@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:docpilot/screens/auth/signup_screen.dart';
-import 'package:docpilot/screens/userType/user_type.dart';
+import 'package:docpilot/presentation/auth/signup_screen.dart';
+import 'package:docpilot/presentation/userType/user_type.dart';
 
-import 'package:docpilot/screens/auth/forgot_password_screen.dart';
-import 'package:docpilot/screens/dashboard/dashboard_screen.dart';
+import 'package:docpilot/presentation/auth/forgot_password_screen.dart';
+import 'package:docpilot/presentation/dashboard/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

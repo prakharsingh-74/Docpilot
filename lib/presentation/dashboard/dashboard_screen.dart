@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:docpilot/screens/patients/patients_screen.dart';
-import 'package:docpilot/screens/consultation/consultation_screen.dart';
-import 'package:docpilot/screens/prescriptions/prescriptions_screen.dart';
-import 'package:docpilot/screens/profile/profile_screen.dart';
+import 'package:docpilot/presentation/patients/patients_screen.dart';
+import 'package:docpilot/presentation/consultation/consultation_screen.dart';
+import 'package:docpilot/presentation/prescriptions/prescriptions_screen.dart';
+import 'package:docpilot/presentation/profile/profile_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
