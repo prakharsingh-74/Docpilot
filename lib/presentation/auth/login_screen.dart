@@ -3,7 +3,10 @@ import 'package:docpilot/presentation/auth/signup_screen.dart';
 import 'package:docpilot/presentation/userType/user_type.dart';
 
 import 'package:docpilot/presentation/auth/forgot_password_screen.dart';
+import 'package:docpilot/presentation/auth/otp_verification_screen.dart';
+
 import 'package:docpilot/presentation/dashboard/dashboard_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -42,8 +45,17 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const DashboardScreen()),
+        // Navigator.of(context).pushReplacement(
+        //   MaterialPageRoute(builder: (context) => const DashboardScreen()),
+        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => OtpVerificationScreen(
+                  phoneNumber: _phoneNumberController.text,
+                ),
+          ),
         );
       }
     }
@@ -63,17 +75,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Welcome back',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 255, 249, 249),
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 255, 249, 249),
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Choose your login method to continue',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.grey.shade600,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -81,17 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildLoginTypeButton(
-                      'Staff Login',
-                      'staff',
-                      context,
-                    ),
+                    _buildLoginTypeButton('Staff Login', 'staff', context),
                     const SizedBox(width: 8),
-                    _buildLoginTypeButton(
-                      'Patient Login',
-                      'patient',
-                      context,
-                    ),
+                    _buildLoginTypeButton('Patient Login', 'patient', context),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -164,6 +168,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your phone number';
+                            } else if (!RegExp(
+                              r'^[0-9]{10}$',
+                            ).hasMatch(value)) {
+                              return 'Enter a valid 10-digit phone number';
                             }
                             return null;
                           },
@@ -179,8 +187,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgotPasswordScreen(),
+                                builder:
+                                    (context) => const ForgotPasswordScreen(),
                               ),
                             );
                           },
@@ -197,16 +205,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
                           textStyle: const TextStyle(fontSize: 16),
                         ),
-                        child: _isLoading
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
+                        child:
+                            _isLoading
+                                ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                                : Text(
+                                  _selectedLoginType == 'staff'
+                                      ? 'Login'
+                                      : 'Send OTP',
                                 ),
-                              )
-                            : Text(_selectedLoginType == 'staff' ? 'Login' : 'Send OTP'),
                       ),
                       const SizedBox(height: 24),
 
@@ -217,10 +230,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'Don\'t have an account?',
                             style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.7),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withOpacity(0.7),
                             ),
                           ),
                           TextButton(
@@ -254,24 +266,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         // TODO: Implement language selection
                       },
-                      child: const Text('English',
-                          style: TextStyle(color: Colors.blue)),
+                      child: const Text(
+                        'English',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                     const Text('|', style: TextStyle(color: Colors.grey)),
                     TextButton(
                       onPressed: () {
                         // TODO: Implement language selection
                       },
-                      child: const Text('Tamil',
-                          style: TextStyle(color: Colors.blue)),
+                      child: const Text(
+                        'Tamil',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                     const Text('|', style: TextStyle(color: Colors.grey)),
                     TextButton(
                       onPressed: () {
                         // TODO: Implement language selection
                       },
-                      child: const Text('Malayalam',
-                          style: TextStyle(color: Colors.blue)),
+                      child: const Text(
+                        'Malayalam',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                   ],
                 ),
@@ -283,11 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLoginTypeButton(
-    String text,
-    String type,
-    BuildContext context,
-  ) {
+  Widget _buildLoginTypeButton(String text, String type, BuildContext context) {
     final isSelected = _selectedLoginType == type;
     return ElevatedButton(
       onPressed: () {
@@ -296,13 +310,12 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Colors.teal.shade50 : Colors.grey.shade100,
+        backgroundColor:
+            isSelected ? Colors.teal.shade50 : Colors.grey.shade100,
         foregroundColor: isSelected ? Colors.teal.shade900 : Colors.black87,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         textStyle: const TextStyle(fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       child: Text(text),
     );
