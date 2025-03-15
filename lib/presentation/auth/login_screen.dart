@@ -54,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
             builder:
                 (context) => OtpVerificationScreen(
                   phoneNumber: _phoneNumberController.text,
+                  userType: _selectedLoginType,
                 ),
           ),
         );

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:docpilot/presentation/dashboard/dashboard_screen.dart';
+import 'package:docpilot/presentation/dashboard/patient_dashboard_screen.dart';
+
+
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phoneNumber;
+   final String userType;
 
-  const OtpVerificationScreen({Key? key, required this.phoneNumber}) : super(key: key);
+  const OtpVerificationScreen({Key? key, required this.phoneNumber, required this.userType,}) : super(key: key);
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -36,14 +40,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         _isLoading = false;
       });
 
-      if (mounted) {
+       if (mounted) {
+      if (widget.userType == 'patient') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const PatientDashboardScreen()),
+        );
+      } else if (widget.userType == 'staff') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const DashboardScreen()),
         );
       }
     }
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
