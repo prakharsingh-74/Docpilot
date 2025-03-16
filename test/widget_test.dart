@@ -9,11 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:docpilot/main.dart';
+import 'package:appwrite/appwrite.dart';
+
+class MockAccount extends Account {
+  MockAccount() : super(Client());
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('DocPilotApp initial state test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const DocPilotApp());
+    await tester.pumpWidget(DocPilotApp(account: MockAccount()));
+
+    // Verify that the app title is present
+    expect(find.text('DocPilot'), findsOneWidget);
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
@@ -28,3 +36,5 @@ void main() {
     expect(find.text('1'), findsOneWidget);
   });
 }
+
+

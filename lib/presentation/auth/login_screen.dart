@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:docpilot/presentation/auth/signup_screen.dart';
 import 'package:docpilot/presentation/userType/user_type.dart';
-
+import 'package:appwrite/appwrite.dart';
 import 'package:docpilot/presentation/auth/forgot_password_screen.dart';
 import 'package:docpilot/presentation/auth/otp_verification_screen.dart';
-
 import 'package:docpilot/presentation/dashboard/dashboard_screen.dart';
 
-
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final Account account;
+  const LoginScreen({Key? key, required this.account}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -23,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   bool _isLoading = false;
   String _selectedLoginType = 'staff';
+  bool _isFormValid = false;
 
   @override
   void dispose() {
@@ -103,6 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 Form(
                   key: _formKey,
+                  onChanged: () {
+                    setState(() {
+                      _isFormValid = _formKey.currentState?.validate() ?? false;
+                    });
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -176,6 +181,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
+                          onChanged: (value) {
+                            setState(() {
+                              _isFormValid = value.length == 10;
+                            });
+                          },
                         ),
                       ],
                       const SizedBox(height: 8),
@@ -199,7 +209,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 24),
 
                       ElevatedButton(
-                        onPressed: _isLoading ? null : _login,
+                        onPressed:
+                            (_isFormValid && !_isLoading) ? _login : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.teal.shade700,
                           foregroundColor: Colors.white,
@@ -222,6 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       : 'Send OTP',
                                 ),
                       ),
+
                       const SizedBox(height: 24),
 
                       // Sign Up Option

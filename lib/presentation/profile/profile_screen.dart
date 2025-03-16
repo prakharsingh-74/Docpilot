@@ -1,8 +1,11 @@
+import 'package:docpilot/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:appwrite/appwrite.dart';
 import 'package:docpilot/presentation/auth/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final Account account;
+  const ProfileScreen({super.key, required this.account});
 
   @override
   Widget build(BuildContext context) {
@@ -263,36 +266,34 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Logout'),
-            content: const Text('Are you sure you want to logout?'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
+void _showLogoutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Logout'),
+      content: const Text('Are you sure you want to logout?'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) =>
+                //  LoginScreen(account: account),
+                SplashScreen(account: account)
               ),
-              TextButton(
-                onPressed: () {
-                  // Navigate to *basic* LoginScreen
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder:
-                          (context) =>
-                              const LoginScreen(), // Use the basic LoginScreen
-                    ),
-                    (route) => false,
-                  );
-                },
-                child: const Text('Logout'),
-              ),
-            ],
-          ),
-    );
-  }
+              (route) => false,
+            );
+          },
+          child: const Text('Logout'),
+        ),
+      ],
+    ),
+  );
+}
 }

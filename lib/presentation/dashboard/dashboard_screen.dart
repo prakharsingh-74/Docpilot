@@ -19,7 +19,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     const PatientsScreen(),
     const ConsultationScreen(),
     const PrescriptionsScreen(),
-    const ProfileScreen(),
+    // const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
