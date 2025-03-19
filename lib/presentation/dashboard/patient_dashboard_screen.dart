@@ -1,155 +1,240 @@
+// lib/presentation/dashboard/patient_dashboard_screen.dart
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
-class PatientDashboardScreen extends StatelessWidget {
-  const PatientDashboardScreen({Key? key}) : super(key: key);
+class PatientDashboardScreen extends StatefulWidget {
+  @override
+  _PatientDashboardScreenState createState() => _PatientDashboardScreenState();
+}
+
+class _PatientDashboardScreenState extends State<PatientDashboardScreen> {
+  final String patientName = "John Doe";
+  final List<Map<String, dynamic>> upcomingAppointments = [
+    {
+      'doctorName': 'Dr. Smith',
+      'specialty': 'Cardiologist',
+      'time': '10:30 AM',
+      'date': 'Today',
+      'status': 'Confirmed',
+    },
+    {
+      'doctorName': 'Dr. Johnson',
+      'specialty': 'Dermatologist',
+      'time': '2:15 PM',
+      'date': 'Tomorrow',
+      'status': 'Pending',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF1E1E2E),
       appBar: AppBar(
-        title: const Text('Patient Dashboard'),
+        backgroundColor: const Color(0xFF1E1E2E),
+        title: Text('DocPilot'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // TODO: Implement notifications
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // TODO: Implement settings
-            },
+            icon: Icon(Icons.notifications_outlined),
+            onPressed: () {},
           ),
         ],
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            const SizedBox(height: 24),
-            _buildMainOverview(),
-            const SizedBox(height: 24),
-            _buildHealthMetrics(),
-            const SizedBox(height: 24),
-            _buildAppointments(),
-            const SizedBox(height: 24),
-            _buildMedications(),
-            const SizedBox(height: 24),
-            _buildTestResults(),
-            const SizedBox(height: 24),
-            _buildCarePlan(),
-            const SizedBox(height: 24),
-            _buildCommunication(),
-            const SizedBox(height: 24),
-            _buildBillingAndInsurance(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Row(
-      children: [
-        const CircleAvatar(
-          radius: 30,
-          backgroundImage: AssetImage('assets/patient.png'),
-        ),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Welcome, John Doe',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text('Patient ID: 12345'),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMainOverview() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.favorite, color: Colors.green),
-                const SizedBox(width: 8),
-                const Text(
-                  'Health Status: Good',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Welcome Card
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Color(0xFF2A2A3C),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Text('Next Appointment: March 20, 2025, 10:00 AM'),
-            const SizedBox(height: 8),
-            const Text('Medication Reminder: Take Aspirin at 2:00 PM'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHealthMetrics() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Health Metrics',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 200,
-              child: LineChart(
-                LineChartData(
-                  gridData: FlGridData(show: false),
-                  titlesData: FlTitlesData(show: false),
-                  borderData: FlBorderData(show: false),
-                  minX: 0,
-                  maxX: 6,
-                  minY: 0,
-                  maxY: 6,
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: [
-                        const FlSpot(0, 3),
-                        const FlSpot(1, 1),
-                        const FlSpot(2, 4),
-                        const FlSpot(3, 2),
-                        const FlSpot(4, 5),
-                        const FlSpot(5, 3),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      radius: 25,
+                      child: Text(
+                        patientName.substring(0, 1),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome, $patientName',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'You have 2 upcoming appointments',
+                          style: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
-                      isCurved: true,
-                      color: Colors.blue,
-                      barWidth: 4,
-                      dotData: FlDotData(show: false),
-                      belowBarData: BarAreaData(show: false),
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement new measurement input
-              },
-              child: const Text('Input New Measurement'),
+
+              SizedBox(height: 24),
+
+              // Quick Actions
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildQuickActionCard(
+                    context,
+                    Icons.calendar_today,
+                    Colors.orange,
+                    'Book\nAppointment',
+                    () {},
+                  ),
+                  _buildQuickActionCard(
+                    context,
+                    Icons.description,
+                    Colors.green,
+                    'My\nPrescriptions',
+                    () {},
+                  ),
+                  _buildQuickActionCard(
+                    context,
+                    Icons.medical_services,
+                    Colors.purple,
+                    'Medical\nRecords',
+                    () {},
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 24),
+
+              // Upcoming Appointments
+              Text(
+                'Upcoming Appointments',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 12),
+
+              // Appointment Cards
+              ...upcomingAppointments.map(
+                (appointment) => _buildAppointmentCard(appointment),
+              ),
+
+              SizedBox(height: 24),
+
+              // Consultation History
+              Text(
+                'Recent Consultations',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 12),
+
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Color(0xFF2A2A3C),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    _buildConsultationItem(
+                      'Dr. Williams',
+                      'General Physician',
+                      'March 15, 2025',
+                      'Completed',
+                    ),
+                    Divider(color: Colors.grey[700]),
+                    _buildConsultationItem(
+                      'Dr. Garcia',
+                      'ENT Specialist',
+                      'March 10, 2025',
+                      'Completed',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF2A2A3C),
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Appointments',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.mic), label: 'Consult'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.description),
+            label: 'Prescriptions',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+        currentIndex: 0,
+        onTap: (index) {
+          // Handle navigation here
+        },
+      ),
+    );
+  }
+
+  Widget _buildQuickActionCard(
+    BuildContext context,
+    IconData icon,
+    Color color,
+    String title,
+    VoidCallback onTap,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.28,
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Color(0xFF2A2A3C),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: 32),
+            SizedBox(height: 8),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
           ],
         ),
@@ -157,201 +242,132 @@ class PatientDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAppointments() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Appointments',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              title: const Text('General Checkup'),
-              subtitle: const Text('March 20, 2025, 10:00 AM'),
-              trailing: const Icon(Icons.video_call),
-            ),
-            ListTile(
-              title: const Text('Dental Cleaning'),
-              subtitle: const Text('April 5, 2025, 2:00 PM'),
-              trailing: const Icon(Icons.person),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement appointment scheduling
-              },
-              child: const Text('Schedule New Appointment'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget _buildAppointmentCard(Map<String, dynamic> appointment) {
+    Color statusColor =
+        appointment['status'] == 'Confirmed' ? Colors.green : Colors.orange;
 
-  Widget _buildMedications() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Medications',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Color(0xFF2A2A3C),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.blue[700],
+            child: Text(
+              appointment['doctorName'].substring(3, 4),
+              style: TextStyle(color: Colors.white),
             ),
-            const SizedBox(height: 16),
-            ListTile(
-              title: const Text('Aspirin'),
-              subtitle: const Text('1 tablet daily'),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement refill request
-                },
-                child: const Text('Refill'),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  appointment['doctorName'],
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  appointment['specialty'],
+                  style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today,
+                      size: 16,
+                      color: Colors.grey[400],
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      appointment['date'],
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    SizedBox(width: 16),
+                    Icon(Icons.access_time, size: 16, color: Colors.grey[400]),
+                    SizedBox(width: 4),
+                    Text(
+                      appointment['time'],
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: statusColor.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              appointment['status'],
+              style: TextStyle(
+                color: statusColor,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            ListTile(
-              title: const Text('Lisinopril'),
-              subtitle: const Text('1 tablet twice daily'),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement refill request
-                },
-                child: const Text('Refill'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConsultationItem(
+    String doctor,
+    String specialty,
+    String date,
+    String status,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  doctor,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  specialty,
+                  style: TextStyle(color: Colors.grey[400], fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                date,
+                style: TextStyle(color: Colors.grey[400], fontSize: 14),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Text('Medication Adherence: 90%'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTestResults() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Test Results',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              title: const Text('Blood Glucose'),
-              subtitle: const Text('95 mg/dL'),
-              trailing: const Icon(Icons.arrow_downward, color: Colors.green),
-            ),
-            ListTile(
-              title: const Text('Cholesterol'),
-              subtitle: const Text('180 mg/dL'),
-              trailing: const Icon(Icons.arrow_upward, color: Colors.red),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement full history view
-              },
-              child: const Text('View Full History'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCarePlan() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Care Plan',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            const Text('Progress: 70% towards weight loss goal'),
-            const SizedBox(height: 8),
-            const Text('Recommended: 30 minutes of daily exercise'),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement educational content
-              },
-              child: const Text('View Educational Content'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCommunication() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Communication',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement secure messaging
-              },
-              child: const Text('Message Healthcare Team'),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement document upload
-              },
-              child: const Text('Upload Document or Image'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBillingAndInsurance() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Billing and Insurance',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            const Text('Outstanding Balance: \$150.00'),
-            const SizedBox(height: 8),
-            const Text('Recent Transaction: \$50.00 paid on March 1, 2025'),
-            const SizedBox(height: 8),
-            const Text('Insurance: BlueCross BlueShield'),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement claims status view
-              },
-              child: const Text('View Claims Status'),
-            ),
-          ],
-        ),
+              SizedBox(height: 4),
+              Text(status, style: TextStyle(color: Colors.green, fontSize: 14)),
+            ],
+          ),
+        ],
       ),
     );
   }

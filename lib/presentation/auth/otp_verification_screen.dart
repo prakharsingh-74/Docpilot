@@ -43,7 +43,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
        if (mounted) {
       if (widget.userType == 'patient') {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const PatientDashboardScreen()),
+          MaterialPageRoute(builder: (context) => PatientDashboardScreen()),
         );
       } else if (widget.userType == 'staff') {
         Navigator.of(context).pushReplacement(
