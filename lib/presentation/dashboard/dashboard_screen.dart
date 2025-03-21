@@ -3,9 +3,12 @@ import 'package:docpilot/presentation/patients/patients_screen.dart';
 import 'package:docpilot/presentation/consultation/consultation_screen.dart';
 import 'package:docpilot/presentation/prescriptions/prescriptions_screen.dart';
 import 'package:docpilot/presentation/profile/profile_screen.dart';
+import 'package:appwrite/appwrite.dart';
+
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final Account account;
+  const DashboardScreen({super.key, required this.account});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -13,14 +16,19 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
+  late List<Widget> _screens;
 
-  final List<Widget> _screens = [
-    const DashboardHomeScreen(),
-    const PatientsScreen(),
-    const ConsultationScreen(),
-    const PrescriptionsScreen(),
-    // const ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      const DashboardHomeScreen(),
+      const PatientsScreen(),
+      const ConsultationScreen(),
+      const PrescriptionsScreen(),
+      ProfileScreen(account: widget.account),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,7 +39,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onItemTapped,
@@ -66,6 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+
 
 class DashboardHomeScreen extends StatelessWidget {
   const DashboardHomeScreen({super.key});

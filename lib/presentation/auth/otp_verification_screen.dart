@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:docpilot/presentation/dashboard/dashboard_screen.dart';
 import 'package:docpilot/presentation/dashboard/patient_dashboard_screen.dart';
-
-
+import 'package:appwrite/appwrite.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phoneNumber;
-   final String userType;
+  final String userType;
+  final Account account;
 
-  const OtpVerificationScreen({Key? key, required this.phoneNumber, required this.userType,}) : super(key: key);
+  const OtpVerificationScreen({Key? key, required this.phoneNumber, required this.userType, required this.account}) : super(key: key);
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -40,19 +40,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         _isLoading = false;
       });
 
-       if (mounted) {
-      if (widget.userType == 'patient') {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => PatientDashboardScreen()),
-        );
-      } else if (widget.userType == 'staff') {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const DashboardScreen()),
-        );
+      if (mounted) {
+        if (widget.userType == 'patient') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => PatientDashboardScreen()),
+          );
+        } else if (widget.userType == 'staff') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => DashboardScreen(account: widget.account)),
+          );
+        }
       }
     }
   }
-}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

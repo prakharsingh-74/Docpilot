@@ -55,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 (context) => OtpVerificationScreen(
                   phoneNumber: _phoneNumberController.text,
                   userType: _selectedLoginType,
+                  account:  widget.account,
                 ),
           ),
         );
