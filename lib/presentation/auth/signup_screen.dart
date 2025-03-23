@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:docpilot/presentation/auth/login_screen.dart';
+import 'package:appwrite/appwrite.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final Account account;
+  const SignupScreen({super.key, required this.account});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -231,7 +234,14 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          LoginScreen(account: widget.account),
+                                ),
+                              );
                             },
                             child: const Text('Login'),
                           ),

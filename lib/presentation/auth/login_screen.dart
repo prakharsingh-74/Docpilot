@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 (context) => OtpVerificationScreen(
                   phoneNumber: _phoneNumberController.text,
                   userType: _selectedLoginType,
-                  account:  widget.account,
+                  account: widget.account,
                 ),
           ),
         );
@@ -254,7 +254,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const UserTypeScreen(),
+                                  builder:
+                                      (context) => UserTypeScreen(
+                                        account: widget.account,
+                                      ),
                                 ),
                               );
                             },

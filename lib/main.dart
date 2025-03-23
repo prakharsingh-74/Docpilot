@@ -3,6 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:docpilot/presentation/splash_screen.dart';
 import 'package:docpilot/services/app_theme.dart';
 import 'package:appwrite/appwrite.dart';
+import 'package:docpilot/presentation/dashboard/patient_dashboard_screen.dart';
+import 'package:docpilot/presentation/dashboard/appointments_screen.dart';
+import 'package:docpilot/presentation/consultation/patient_consultation_screen.dart';
+import 'package:docpilot/presentation/prescriptions/patient_prescription_screen.dart';
+import 'package:docpilot/presentation/profile/patient_profile_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +32,13 @@ class DocPilotApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       home: SplashScreen(account: account),
+      routes: {
+        '/patient_dashboard': (context) => PatientDashboardScreen(),
+        '/appointments': (context) => const AppointmentsScreen(),
+        '/consult': (context) => const PatientConsultationScreen(),
+        '/prescriptions': (context) => const PatientPrescriptionScreen(),
+        '/profile': (context) => const PatientProfileScreen(),
+      },
     );
   }
 }

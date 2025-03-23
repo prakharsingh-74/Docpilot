@@ -106,19 +106,6 @@ class _PatientPrescriptionScreenState extends State<PatientPrescriptionScreen> {
       backgroundColor: const Color(0xFF1A1C2E),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1A1C2E),
-        title: Row(
-          children: [
-            Icon(Icons.flash_on, color: Colors.blue[300]),
-            const SizedBox(width: 8),
-            Text(
-              'DocPilot',
-              style: TextStyle(
-                color: Colors.blue[300],
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.white),

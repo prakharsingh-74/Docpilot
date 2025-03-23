@@ -8,7 +8,12 @@ class OtpVerificationScreen extends StatefulWidget {
   final String userType;
   final Account account;
 
-  const OtpVerificationScreen({Key? key, required this.phoneNumber, required this.userType, required this.account}) : super(key: key);
+  const OtpVerificationScreen({
+    super.key,
+    required this.phoneNumber,
+    required this.userType,
+    required this.account,
+  });
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -16,8 +21,26 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final _formKey = GlobalKey<FormState>();
-  final List<TextEditingController> _otpControllers = List.generate(4, (index) => TextEditingController());
+  final List<TextEditingController> _otpControllers = List.generate(
+    4,
+    (index) => TextEditingController(),
+  );
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // If user is staff (doctor), navigate directly to dashboard
+    if (widget.userType == 'staff') {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => DashboardScreen(account: widget.account),
+          ),
+        );
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -41,111 +64,121 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       });
 
       if (mounted) {
-        if (widget.userType == 'patient') {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => PatientDashboardScreen()),
-          );
-        } else if (widget.userType == 'staff') {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => DashboardScreen(account: widget.account)),
-          );
-        }
+        Navigator.of(context).pushReplacementNamed('/patient_dashboard');
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    // If user is staff (doctor), show loading screen while redirecting
+    if (widget.userType == 'staff') {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    // Show OTP screen only for patients
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Verify Your Phone',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal.shade700,
-                  ),
-                  textAlign: TextAlign.center,
+      backgroundColor: const Color(0xFF1A1C2E),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF1A1C2E),
+        
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Enter the OTP sent to ${widget.phoneNumber}',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Enter the 4-digit code sent to ${widget.phoneNumber}',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey.shade600),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32),
-                Form(
-                  key: _formKey,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(
-                      4,
-                      (index) => SizedBox(
-                        width: 50,
-                        child: TextFormField(
-                          controller: _otpControllers[index],
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          maxLength: 1,
-                          decoration: InputDecoration(
-                            counterText: '',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            if (value.length == 1 && index < 3) {
-                              FocusScope.of(context).nextFocus();
-                            }
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter digit';
-                            }
-                            return null;
-                          },
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                  4,
+                  (index) => SizedBox(
+                    width: 50,
+                    child: TextFormField(
+                      controller: _otpControllers[index],
+                      decoration: InputDecoration(
+                        counterText: '',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
                         ),
+                        filled: true,
+                        fillColor: const Color(0xFF2A2A3C),
                       ),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      onChanged: (value) {
+                        if (value.length == 1 && index < 3) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
                   onPressed: _isLoading ? null : _verifyOtp,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.teal.shade700,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    textStyle: const TextStyle(fontSize: 16),
+                    backgroundColor: Colors.blue[700],
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                  child: _isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
+                  child:
+                      _isLoading
+                          ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                          : const Text(
+                            'Verify',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        )
-                      : const Text('Verify OTP'),
                 ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    // TODO: Implement resend OTP functionality
-                  },
-                  child: Text(
-                    'Resend OTP',
-                    style: TextStyle(color: Colors.teal.shade700),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: _isLoading ? null : () {},
+                style: TextButton.styleFrom(foregroundColor: Colors.blue[300]),
+                child: const Text('Resend OTP'),
+              ),
+            ],
           ),
         ),
       ),
