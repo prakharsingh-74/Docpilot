@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:appwrite/appwrite.dart';
+import 'package:docpilot/presentation/auth/login_screen.dart';
 
 class PatientProfileScreen extends StatefulWidget {
-  const PatientProfileScreen({super.key});
+  final Account account;
+  const PatientProfileScreen({super.key, required this.account});
 
   @override
   State<PatientProfileScreen> createState() => _PatientProfileScreenState();
@@ -151,7 +154,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                 }),
                 const SizedBox(height: 12),
                 _buildActionButton('Logout', Icons.logout, () {
-                  // TODO: Implement logout
+                  _showLogoutDialog(context);
                 }, color: Colors.red[400]),
               ],
             ],
@@ -311,6 +314,37 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Logout'),
+            content: const Text('Are you sure you want to logout?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder:
+                          (context) => LoginScreen(account: widget.account),
+                    ),
+                    (route) => false,
+                  );
+                },
+                child: const Text('Logout'),
+              ),
+            ],
+          ),
     );
   }
 }

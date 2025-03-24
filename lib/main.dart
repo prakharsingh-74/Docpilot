@@ -37,7 +37,7 @@ class DocPilotApp extends StatelessWidget {
         '/appointments': (context) => const AppointmentsScreen(),
         '/consult': (context) => const PatientConsultationScreen(),
         '/prescriptions': (context) => const PatientPrescriptionScreen(),
-        '/profile': (context) => const PatientProfileScreen(),
+        '/profile': (context) => PatientProfileScreen(account: account),
       },
     );
   }
