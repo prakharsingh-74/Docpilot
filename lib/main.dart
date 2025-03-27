@@ -8,6 +8,9 @@ import 'package:docpilot/presentation/dashboard/appointments_screen.dart';
 import 'package:docpilot/presentation/consultation/patient_consultation_screen.dart';
 import 'package:docpilot/presentation/prescriptions/patient_prescription_screen.dart';
 import 'package:docpilot/presentation/profile/patient_profile_screen.dart';
+import 'presentation/appointments/book_appointment_screen.dart';
+import 'presentation/appointments/patient_appointments_screen.dart';
+import 'presentation/appointments/doctor_appointments_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +41,12 @@ class DocPilotApp extends StatelessWidget {
         '/consult': (context) => const PatientConsultationScreen(),
         '/prescriptions': (context) => const PatientPrescriptionScreen(),
         '/profile': (context) => PatientProfileScreen(account: account),
+        '/book-appointment':
+            (context) => BookAppointmentScreen(account: account),
+        '/patient-appointments':
+            (context) => PatientAppointmentsScreen(account: account),
+        '/doctor-appointments':
+            (context) => DoctorAppointmentsScreen(account: account),
       },
     );
   }

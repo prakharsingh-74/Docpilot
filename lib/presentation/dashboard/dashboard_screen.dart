@@ -5,7 +5,6 @@ import 'package:docpilot/presentation/prescriptions/prescriptions_screen.dart';
 import 'package:docpilot/presentation/profile/profile_screen.dart';
 import 'package:appwrite/appwrite.dart';
 
-
 class DashboardScreen extends StatefulWidget {
   final Account account;
   const DashboardScreen({super.key, required this.account});
@@ -39,10 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onItemTapped,
@@ -77,7 +73,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
 
 class DashboardHomeScreen extends StatelessWidget {
   const DashboardHomeScreen({super.key});
