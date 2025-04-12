@@ -7,6 +7,7 @@ DocPilot is a revolutionary EMR application that leverages conversational AI to 
 - [Project Overview](#project-overview)
 - [Key Features](#key-features)
 - [System Architecture](#system-architecture)
+- [UI Design](#UI-Design)
 - [Technology Stack](#technology-stack)
 - [Setup Guide](#setup-guide)
 - [User Workflows](#user-workflows)
@@ -125,6 +126,14 @@ DocPilot follows a microservices architecture with the following key components:
 - Relational database for structured patient data
 - Document store for consultation transcripts and prescriptions
 - Secure patient information repository with encryption
+
+## UI Design
+![image](https://github.com/user-attachments/assets/67bbed21-9d6e-4e38-8808-36f66a69d9e8)
+![image](https://github.com/user-attachments/assets/5d8fc572-e469-4263-8fe5-8ced272034a6)
+![image](https://github.com/user-attachments/assets/1eca018b-4278-411f-8648-cb7071a55752)
+![image](https://github.com/user-attachments/assets/8d250a30-6232-41bc-be3c-d8da582ab45d)
+![image](https://github.com/user-attachments/assets/8dae2537-3999-4aa5-81ff-9145734179c0)
+
 
 ## Technology Stack
 
