@@ -80,7 +80,9 @@ The application passively listens to doctor-patient consultations, intelligently
 
 ## System Architecture
 
-https://app.eraser.io/workspace/uH9HKVssowZErmxsQak8
+![Image](https://github.com/user-attachments/assets/92ab764b-8f80-470d-b62d-d33148abd1cf)
+
+Link of the diagram - https://app.eraser.io/workspace/uH9HKVssowZErmxsQak8
 
 ### High-Level Architecture Overview
 
